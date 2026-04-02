@@ -15,6 +15,7 @@ A cross-platform implementation of the ENDSLEY/BSDIFF43 binary diff and patch al
 ## Credits
 
 Built using the bsdiff/bspatch library:
+
 - Original bsdiff algorithm by Colin Percival (2003-2005)
 - Enhanced ENDSLEY/BSDIFF43 version by Matthew Endsley (2012)
 - Source: https://github.com/mendsley/bsdiff
@@ -22,6 +23,7 @@ Built using the bsdiff/bspatch library:
 ## Prerequisites
 
 ### Dependencies
+
 - bzip2 library (for compression support)
   - **macOS**: Pre-installed
   - **Ubuntu/Debian**: `sudo apt-get install libbz2-dev`
@@ -31,7 +33,8 @@ Built using the bsdiff/bspatch library:
 ## Usage
 
 ### Building from Source
-To use bsdiff/bspatch directly without code-push-standalone, follow these steps:
+
+To use bsdiff/bspatch directly without delivr, follow these steps:
 
 ```bash
 cd cli/bsdiff
@@ -40,11 +43,13 @@ make
 ```
 
 ### Creating a Patch
+
 ```bash
 ./bsdiff43 diff <old_file> <new_file> <patch_file> <compression>
 ```
 
 Parameters:
+
 - `old_file`: Path to the original bundle file
 - `new_file`: Path to the new bundle file
 - `patch_file`: Path where the patch file will be saved
@@ -53,16 +58,19 @@ Parameters:
   - `true`: Uses built-in bzip2 compression (Note: cannot be further compressed)
 
 Example:
+
 ```bash
 ./bsdiff43 diff old.bundle new.bundle patch.diff false
 ```
 
 ### Applying a Patch
+
 ```bash
 ./bsdiff43 patch <old_file> <patch_file> <output_file> <is_patch_compressed>
 ```
 
 Parameters:
+
 - `old_file`: Path to the original bundle file
 - `patch_file`: Path to the patch file
 - `output_file`: Path where the reconstructed new file will be saved
@@ -70,17 +78,19 @@ Parameters:
   - Must match the compression setting used when creating the patch
 
 Example:
+
 ```bash
 ./bsdiff43 patch old.bundle patch.diff reconstructed.bundle false
 ```
 
 ### Compression Notes
+
 - When `compression=false`, the patch is created in raw format
-  - This is recommended when using with code-push-standalone as it allows for Brotli compression later
+  - This is recommended when using with delivr as it allows for Brotli compression later
   - Results in better compression ratios in most cases
 - When `compression=true`, the patch is compressed using bzip2
   - Cannot be further compressed using other algorithms
-  - Useful for standalone usage without code-push-standalone
+  - Useful for standalone usage without delivr
 
 ## File Structure
 
@@ -95,12 +105,14 @@ Example:
 ### Error Handling
 
 Both functions return:
+
 - `0` on success
 - Non-zero value on error
 
 ## License
 
 Licensed under BSD 2-clause:
+
 ```
 Copyright 2003-2005 Colin Percival
 Copyright 2012 Matthew Endsley
@@ -108,6 +120,7 @@ All rights reserved
 ```
 
 Requirements:
+
 1. Keep the copyright notice and license text in source files
 2. Include the same copyright notice and license in binary distributions
 

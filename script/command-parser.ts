@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import * as chalk from "chalk";
 import * as yargs from "yargs";
 import * as cli from "../script/types/cli";
-import * as chalk from "chalk";
 import backslash = require("backslash");
 import parseDuration = require("parse-duration");
 
 const packageJson = require("../../package.json");
 const ROLLOUT_PERCENTAGE_REGEX: RegExp = /^(100|[1-9][0-9]|[1-9])%?$/;
-const USAGE_PREFIX = "Usage: code-push-standalone";
+const USAGE_PREFIX = "Usage: delivr";
 
 // Command categories are:  access-key, app, release, deployment, deployment-key, login, logout, register
 // eslint-disable-next-line no-var, @typescript-eslint/no-unused-vars

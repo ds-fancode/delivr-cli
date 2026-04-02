@@ -3,26 +3,13 @@
 
 import AccountManager = require("./management-sdk");
 const childProcess = require("child_process");
-import debugCommand from "./commands/debug";
-import * as fs from "fs";
 import * as chalk from "chalk";
-const g2js = require("gradle-to-js/lib/parser");
+import * as fs from "fs";
 import * as moment from "moment";
-const opener = require("opener");
 import * as os from "os";
 import * as path from "path";
-const plist = require("plist");
-const progress = require("progress");
-const prompt = require("prompt");
 import * as Q from "q";
-const rimraf = require("rimraf");
 import * as semver from "semver";
-const Table = require("cli-table");
-const which = require("which");
-import wordwrap = require("wordwrap");
-import * as cli from "../script/types/cli";
-import sign from "./sign";
-const xcode = require("xcode");
 import {
   AccessKey,
   Account,
@@ -38,29 +25,42 @@ import {
   Session,
   UpdateMetrics,
 } from "../script/types";
+import * as cli from "../script/types/cli";
+import debugCommand from "./commands/debug";
 import {
   getAndroidHermesEnabled,
   getiOSHermesEnabled,
-  runHermesEmitBinaryCommand,
-  isValidVersion
+  isValidVersion,
+  runHermesEmitBinaryCommand
 } from "./react-native-utils";
+import sign from "./sign";
+import { Organisation, ReleasePackageInfo } from "./types/rest-definitions";
+import { DelivrConfigConstants } from "./utils/config.constants";
 import {
   fileDoesNotExistOrIsDirectory,
-  isBinaryOrZip,
   fileExists,
-  isValidAABArtifactExtension,
   getAllowedAABArtifactExtensions,
-  isValidRegressionArtifactExtension,
-  getAllowedRegressionArtifactExtensions
+  getAllowedRegressionArtifactExtensions,
+  isBinaryOrZip,
+  isValidAABArtifactExtension,
+  isValidRegressionArtifactExtension
 } from "./utils/file-utils";
-import { DelivrConfigConstants } from "./utils/config.constants";
+const g2js = require("gradle-to-js/lib/parser");
+const opener = require("opener");
+const plist = require("plist");
+const progress = require("progress");
+const prompt = require("prompt");
+const rimraf = require("rimraf");
+const Table = require("cli-table");
+const which = require("which");
+import wordwrap = require("wordwrap");
+const xcode = require("xcode");
 
 const configFilePath: string = path.join(process.env.LOCALAPPDATA || process.env.HOME, ".code-push.config");
 const emailValidator = require("email-validator");
 const packageJson = require("../../package.json");
 const parseXml = Q.denodeify(require("xml2js").parseString);
 import Promise = Q.Promise;
-import { Organisation, ReleasePackageInfo } from "./types/rest-definitions";
 const properties = require("properties");
 
 const CLI_HEADERS: Headers = {

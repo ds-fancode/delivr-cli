@@ -22,11 +22,11 @@ This guide explains how to integrate `@ds-fancode/delivr-cli` into your CI/CD pi
 
 The Delivr CLI provides commands to upload build artifacts directly from your CI/CD pipelines:
 
-| Command | Description | Supported Files |
-|---------|-------------|-----------------|
-| `upload-aab-build` | Upload AAB for Play Store releases | `.aab` |
-| `upload-regression-artifact` | Upload regression builds | `.apk`, `.ipa` |
-| `upload-testflight-build-number` | Submit TestFlight build number | N/A |
+| Command                          | Description                        | Supported Files |
+| -------------------------------- | ---------------------------------- | --------------- |
+| `upload-aab-build`               | Upload AAB for Play Store releases | `.aab`          |
+| `upload-regression-artifact`     | Upload regression builds           | `.apk`, `.ipa`  |
+| `upload-testflight-build-number` | Submit TestFlight build number     | N/A             |
 
 ---
 
@@ -46,18 +46,18 @@ The Delivr CLI provides commands to upload build artifacts directly from your CI
 npm install -g @ds-fancode/delivr-cli
 ```
 
-
 ## Authentication
 
 Before running any commands, you must authenticate with your Delivr access key.
 
 ```bash
-code-push-standalone login <server-url> --accessKey YOUR_ACCESS_KEY
+delivr login <server-url> --accessKey YOUR_ACCESS_KEY
 ```
 
 **Example:**
+
 ```bash
-code-push-standalone login https://delivr.example.com --accessKey "$DELIVR_ACCESS_KEY"
+delivr login https://delivr.example.com --accessKey "$DELIVR_ACCESS_KEY"
 ```
 
 > **Security Tip:** Store your access key as a CI secret/credential, never hardcode it in your pipeline.
@@ -71,23 +71,23 @@ code-push-standalone login https://delivr.example.com --accessKey "$DELIVR_ACCES
 Upload AAB (Android App Bundle) build artifacts to Delivr Release Management for Play Store releases.
 
 ```bash
-code-push-standalone upload-aab-build <ciRunId> <artifactPath> --artifactVersion <version> --org <orgName> [options]
+delivr upload-aab-build <ciRunId> <artifactPath> --artifactVersion <version> --org <orgName> [options]
 ```
 
 **Arguments:**
 
-| Argument | Required | Description |
-|----------|----------|-------------|
-| `ciRunId` | Yes | CI run identifier - see [CI Run ID Reference](#ci-run-id-reference) |
-| `artifactPath` | Yes | Path to the AAB file (`.aab` only) |
+| Argument       | Required | Description                                                         |
+| -------------- | -------- | ------------------------------------------------------------------- |
+| `ciRunId`      | Yes      | CI run identifier - see [CI Run ID Reference](#ci-run-id-reference) |
+| `artifactPath` | Yes      | Path to the AAB file (`.aab` only)                                  |
 
 **Options:**
 
-| Option | Alias | Required | Description |
-|--------|-------|----------|-------------|
-| `--artifactVersion` | `-v` | Yes | Artifact version (e.g., 3.0.4) - validates artifact belongs to correct release |
-| `--org` | `-o` | Yes | Organization name (e.g., MyOrg) |
-| `--buildNumber` | `-b` | No | Build number / versionCode from Play Store (if CI already uploaded the AAB) |
+| Option              | Alias | Required | Description                                                                    |
+| ------------------- | ----- | -------- | ------------------------------------------------------------------------------ |
+| `--artifactVersion` | `-v`  | Yes      | Artifact version (e.g., 3.0.4) - validates artifact belongs to correct release |
+| `--org`             | `-o`  | Yes      | Organization name (e.g., MyOrg)                                                |
+| `--buildNumber`     | `-b`  | No       | Build number / versionCode from Play Store (if CI already uploaded the AAB)    |
 
 **Behavior:**
 
@@ -101,22 +101,22 @@ code-push-standalone upload-aab-build <ciRunId> <artifactPath> --artifactVersion
 Upload APK or IPA regression build artifacts to Delivr Release Management.
 
 ```bash
-code-push-standalone upload-regression-artifact <ciRunId> <artifactPath> --artifactVersion <version> --org <orgName>
+delivr upload-regression-artifact <ciRunId> <artifactPath> --artifactVersion <version> --org <orgName>
 ```
 
 **Arguments:**
 
-| Argument | Required | Description |
-|----------|----------|-------------|
-| `ciRunId` | Yes | CI run identifier - see [CI Run ID Reference](#ci-run-id-reference) |
-| `artifactPath` | Yes | Path to the build artifact file (`.apk` or `.ipa` only) |
+| Argument       | Required | Description                                                         |
+| -------------- | -------- | ------------------------------------------------------------------- |
+| `ciRunId`      | Yes      | CI run identifier - see [CI Run ID Reference](#ci-run-id-reference) |
+| `artifactPath` | Yes      | Path to the build artifact file (`.apk` or `.ipa` only)             |
 
 **Options:**
 
-| Option | Alias | Required | Description |
-|--------|-------|----------|-------------|
-| `--artifactVersion` | `-v` | Yes | Artifact version (e.g., 3.0.4) - validates artifact belongs to correct release |
-| `--org` | `-o` | Yes | Organization name (e.g., MyOrg) |
+| Option              | Alias | Required | Description                                                                    |
+| ------------------- | ----- | -------- | ------------------------------------------------------------------------------ |
+| `--artifactVersion` | `-v`  | Yes      | Artifact version (e.g., 3.0.4) - validates artifact belongs to correct release |
+| `--org`             | `-o`  | Yes      | Organization name (e.g., MyOrg)                                                |
 
 > **Note:** For AAB files, use `upload-aab-build` instead.
 
@@ -127,22 +127,22 @@ code-push-standalone upload-regression-artifact <ciRunId> <artifactPath> --artif
 Upload TestFlight build number to associate with an iOS CI run.
 
 ```bash
-code-push-standalone upload-testflight-build-number <ciRunId> <testflightNumber> --artifactVersion <version> --org <orgName>
+delivr upload-testflight-build-number <ciRunId> <testflightNumber> --artifactVersion <version> --org <orgName>
 ```
 
 **Arguments:**
 
-| Argument | Required | Description |
-|----------|----------|-------------|
-| `ciRunId` | Yes | CI run identifier - see [CI Run ID Reference](#ci-run-id-reference) |
-| `testflightNumber` | Yes | TestFlight build number from App Store Connect |
+| Argument           | Required | Description                                                         |
+| ------------------ | -------- | ------------------------------------------------------------------- |
+| `ciRunId`          | Yes      | CI run identifier - see [CI Run ID Reference](#ci-run-id-reference) |
+| `testflightNumber` | Yes      | TestFlight build number from App Store Connect                      |
 
 **Options:**
 
-| Option | Alias | Required | Description |
-|--------|-------|----------|-------------|
-| `--artifactVersion` | `-v` | Yes | Artifact version (e.g., 3.0.4) - validates artifact belongs to correct release |
-| `--org` | `-o` | Yes | Organization name (e.g., MyOrg) |
+| Option              | Alias | Required | Description                                                                    |
+| ------------------- | ----- | -------- | ------------------------------------------------------------------------------ |
+| `--artifactVersion` | `-v`  | Yes      | Artifact version (e.g., 3.0.4) - validates artifact belongs to correct release |
+| `--org`             | `-o`  | Yes      | Organization name (e.g., MyOrg)                                                |
 
 ---
 
@@ -150,10 +150,11 @@ code-push-standalone upload-testflight-build-number <ciRunId> <testflightNumber>
 
 The `ciRunId` is a unique identifier for your CI build. Use the appropriate environment variable for your CI platform:
 
-| CI Platform | Environment Variable | Example Value |
-|-------------|---------------------|---------------|
-| **Jenkins** | `$BUILD_URL` | `https://jenkins.example.com/job/MyApp/123/` |
+| CI Platform        | Environment Variable                                                | Example Value                                    |
+| ------------------ | ------------------------------------------------------------------- | ------------------------------------------------ |
+| **Jenkins**        | `$BUILD_URL`                                                        | `https://jenkins.example.com/job/MyApp/123/`     |
 | **GitHub Actions** | `$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID` | `https://github.com/org/repo/actions/runs/12345` |
+
 ---
 
 ### Pipeline Behavior
@@ -169,7 +170,7 @@ For **internal development/testing**, you can set the `DELIVR_INTERNAL` paramete
 ```groovy
 pipeline {
     agent any
-    
+
     parameters {
         booleanParam(
             name: 'DELIVR_INTERNAL',
@@ -177,7 +178,7 @@ pipeline {
             description: 'Internal Delivr build (skip Delivr upload)'
         )
     }
-    
+
     environment {
         DELIVR_ACCESS_KEY = credentials('delivr-access-key')  // Store in Jenkins credentials
         DELIVR_SERVER_URL = 'https://delivr.example.com'      // Your Delivr server URL
@@ -191,7 +192,7 @@ pipeline {
                 sh './gradlew assembleRelease bundleRelease'
             }
         }
-        
+
         stage('Upload to Delivr') {
             when {
                 expression { return !params.DELIVR_INTERNAL }
@@ -199,7 +200,7 @@ pipeline {
             steps {
                 sh '''#!/usr/bin/env bash
                     set -e
-                    
+
                     # Setup Node.js via nvm
                     export NVM_DIR="$HOME/.nvm"
                     if [ ! -d "$NVM_DIR" ]; then
@@ -207,31 +208,31 @@ pipeline {
                         curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
                     fi
                     . "$NVM_DIR/nvm.sh"
-                    
+
                     # Install and use Node 20
                     if ! nvm ls 20 >/dev/null 2>&1; then
                         nvm install 20
                     fi
                     nvm use 20
-                    
+
                     echo "Node version: $(node -v)"
-                    
+
                     # Install delivr-cli
                     npm install -g @ds-fancode/delivr-cli
-                    
+
                     # Authenticate with Delivr
-                    code-push-standalone login "$DELIVR_SERVER_URL" --accessKey "$DELIVR_ACCESS_KEY"
-                    
+                    delivr login "$DELIVR_SERVER_URL" --accessKey "$DELIVR_ACCESS_KEY"
+
                     # Upload AAB build artifact - fails build on error
                     # $BUILD_URL is automatically set by Jenkins
                     # $APP_VERSION and $ORG_NAME should be set in your build environment
-                    code-push-standalone upload-aab-build "$BUILD_URL" ./app/build/outputs/bundle/release/app-release.aab --artifactVersion "$APP_VERSION" --org "$ORG_NAME"
-                    
+                    delivr upload-aab-build "$BUILD_URL" ./app/build/outputs/bundle/release/app-release.aab --artifactVersion "$APP_VERSION" --org "$ORG_NAME"
+
                     echo "Build artifact uploaded successfully!"
                 '''
             }
         }
-        
+
         stage('Skip Delivr Upload (Internal Build)') {
             when {
                 expression { return params.DELIVR_INTERNAL }
@@ -241,7 +242,7 @@ pipeline {
             }
         }
     }
-    
+
     post {
         success {
             echo 'Build completed successfully!'
@@ -260,7 +261,7 @@ If your CI pipeline already uploads the AAB to Play Store and you have the versi
 ```groovy
 pipeline {
     agent any
-    
+
     parameters {
         booleanParam(
             name: 'DELIVR_INTERNAL',
@@ -268,7 +269,7 @@ pipeline {
             description: 'Internal Delivr build (skip Delivr upload)'
         )
     }
-    
+
     environment {
         DELIVR_ACCESS_KEY = credentials('delivr-access-key')
         DELIVR_SERVER_URL = 'https://delivr.example.com'
@@ -280,7 +281,7 @@ pipeline {
                 sh './gradlew bundleRelease'
             }
         }
-        
+
         stage('Upload to Play Store') {
             steps {
                 script {
@@ -293,7 +294,7 @@ pipeline {
                 }
             }
         }
-        
+
         stage('Upload to Delivr') {
             when {
                 expression { return !params.DELIVR_INTERNAL }
@@ -301,17 +302,17 @@ pipeline {
             steps {
                 sh '''#!/usr/bin/env bash
                     set -e
-                    
+
                     export NVM_DIR="$HOME/.nvm"
                     . "$NVM_DIR/nvm.sh"
                     nvm use 20
-                    
+
                     npm install -g @ds-fancode/delivr-cli
-                    code-push-standalone login "$DELIVR_SERVER_URL" --accessKey "$DELIVR_ACCESS_KEY"
-                    
+                    delivr login "$DELIVR_SERVER_URL" --accessKey "$DELIVR_ACCESS_KEY"
+
                     # Upload with build number since we already uploaded to Play Store
                     # Fails build on error
-                    code-push-standalone upload-aab-build "$BUILD_URL" \
+                    delivr upload-aab-build "$BUILD_URL" \
                         ./app/build/outputs/bundle/release/app-release.aab \
                         --artifactVersion "$APP_VERSION" \
                         --org "$ORG_NAME" \
@@ -319,7 +320,7 @@ pipeline {
                 '''
             }
         }
-        
+
         stage('Skip Delivr Upload (Internal Build)') {
             when {
                 expression { return params.DELIVR_INTERNAL }
@@ -365,7 +366,7 @@ echo "=== Install delivr-cli ==="
 npm install -g @ds-fancode/delivr-cli
 
 echo "=== Authenticate with Delivr ==="
-code-push-standalone login "$DELIVR_SERVER_URL" --accessKey "$DELIVR_ACCESS_KEY"
+delivr login "$DELIVR_SERVER_URL" --accessKey "$DELIVR_ACCESS_KEY"
 
 echo "=== Upload Build Artifact ==="
 echo "CI Run ID: $BUILD_URL"
@@ -381,7 +382,7 @@ fi
 echo "Uploading AAB: $AAB_PATH"
 # APP_VERSION and ORG_NAME should be set in your build environment
 # Fails build on error
-code-push-standalone upload-aab-build "$BUILD_URL" "$AAB_PATH" --artifactVersion "$APP_VERSION" --org "$ORG_NAME"
+delivr upload-aab-build "$BUILD_URL" "$AAB_PATH" --artifactVersion "$APP_VERSION" --org "$ORG_NAME"
 
 echo "=== Upload Complete ==="
 ```
@@ -407,37 +408,37 @@ on:
   workflow_dispatch:
     inputs:
       delivr_internal:
-        description: 'Internal Delivr build (skip Delivr upload)'
+        description: "Internal Delivr build (skip Delivr upload)"
         required: false
-        default: 'false'
+        default: "false"
         type: boolean
 
 jobs:
   build-and-upload:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      
+
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
-          java-version: '17'
-          distribution: 'temurin'
-      
+          java-version: "17"
+          distribution: "temurin"
+
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-      
+          node-version: "20"
+
       - name: Build Release AAB
         run: ./gradlew bundleRelease
-      
+
       - name: Install delivr-cli
         if: ${{ inputs.delivr_internal != true }}
         run: npm install -g @ds-fancode/delivr-cli
-      
+
       - name: Upload to Delivr
         if: ${{ inputs.delivr_internal != true }}
         env:
@@ -445,21 +446,21 @@ jobs:
           DELIVR_SERVER_URL: ${{ secrets.DELIVR_SERVER_URL }}
         run: |
           # Authenticate
-          code-push-standalone login "$DELIVR_SERVER_URL" --accessKey "$DELIVR_ACCESS_KEY"
-          
+          delivr login "$DELIVR_SERVER_URL" --accessKey "$DELIVR_ACCESS_KEY"
+
           # Construct CI Run ID from GitHub environment variables
           CI_RUN_ID="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
           echo "CI Run ID: $CI_RUN_ID"
-          
+
           # Extract version from build.gradle or set it
           APP_VERSION=$(./gradlew -q printVersionName)
-          
+
           # Upload AAB - fails workflow on error
-          code-push-standalone upload-aab-build "$CI_RUN_ID" \
+          delivr upload-aab-build "$CI_RUN_ID" \
             ./app/build/outputs/bundle/release/app-release.aab \
             --artifactVersion "$APP_VERSION" \
             --org "$ORG_NAME"
-      
+
       - name: Skip Delivr Upload (Internal Build)
         if: ${{ inputs.delivr_internal == true }}
         run: echo "ℹ️ Skipping Delivr upload (internal build)"
@@ -478,56 +479,56 @@ on:
   workflow_dispatch:
     inputs:
       delivr_internal:
-        description: 'Internal Delivr build (skip Delivr upload)'
+        description: "Internal Delivr build (skip Delivr upload)"
         required: false
-        default: 'false'
+        default: "false"
         type: boolean
 
 jobs:
   build-and-upload:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      
+
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
-          java-version: '17'
-          distribution: 'temurin'
-      
+          java-version: "17"
+          distribution: "temurin"
+
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-      
+          node-version: "20"
+
       - name: Build Release APK
         run: ./gradlew assembleRelease
-      
+
       - name: Install delivr-cli
         if: ${{ inputs.delivr_internal != true }}
         run: npm install -g @ds-fancode/delivr-cli
-      
+
       - name: Upload to Delivr
         if: ${{ inputs.delivr_internal != true }}
         env:
           DELIVR_ACCESS_KEY: ${{ secrets.DELIVR_ACCESS_KEY }}
           DELIVR_SERVER_URL: ${{ secrets.DELIVR_SERVER_URL }}
         run: |
-          code-push-standalone login "$DELIVR_SERVER_URL" --accessKey "$DELIVR_ACCESS_KEY"
-          
+          delivr login "$DELIVR_SERVER_URL" --accessKey "$DELIVR_ACCESS_KEY"
+
           CI_RUN_ID="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
-          
+
           # Extract version from build.gradle or set it
           APP_VERSION=$(./gradlew -q printVersionName)
-          
+
           # Upload APK regression build - fails workflow on error
-          code-push-standalone upload-regression-artifact "$CI_RUN_ID" \
+          delivr upload-regression-artifact "$CI_RUN_ID" \
             ./app/build/outputs/apk/release/app-release.apk \
             --artifactVersion "$APP_VERSION" \
             --org "$ORG_NAME"
-      
+
       - name: Skip Delivr Upload (Internal Build)
         if: ${{ inputs.delivr_internal == true }}
         run: echo "ℹ️ Skipping Delivr upload (internal build)"
@@ -543,37 +544,37 @@ name: Release to Play Store and Delivr
 on:
   push:
     tags:
-      - 'v*'
+      - "v*"
   workflow_dispatch:
     inputs:
       delivr_internal:
-        description: 'Internal Delivr build (skip Delivr upload)'
+        description: "Internal Delivr build (skip Delivr upload)"
         required: false
-        default: 'false'
+        default: "false"
         type: boolean
 
 jobs:
   release:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      
+
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
-          java-version: '17'
-          distribution: 'temurin'
-      
+          java-version: "17"
+          distribution: "temurin"
+
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-      
+          node-version: "20"
+
       - name: Build Release AAB
         run: ./gradlew bundleRelease
-      
+
       - name: Upload to Play Store
         id: playstore
         uses: r0adkll/upload-google-play@v1
@@ -582,36 +583,36 @@ jobs:
           packageName: com.example.app
           releaseFiles: app/build/outputs/bundle/release/app-release.aab
           track: internal
-      
+
       - name: Extract Version Code
         id: version
         run: |
           # Extract versionCode from build.gradle or AAB
           VERSION_CODE=$(./gradlew -q printVersionCode)
           echo "version_code=$VERSION_CODE" >> $GITHUB_OUTPUT
-      
+
       - name: Install delivr-cli
         if: ${{ inputs.delivr_internal != true }}
         run: npm install -g @ds-fancode/delivr-cli
-      
+
       - name: Upload to Delivr
         if: ${{ inputs.delivr_internal != true }}
         env:
           DELIVR_ACCESS_KEY: ${{ secrets.DELIVR_ACCESS_KEY }}
           DELIVR_SERVER_URL: ${{ secrets.DELIVR_SERVER_URL }}
         run: |
-          code-push-standalone login "$DELIVR_SERVER_URL" --accessKey "$DELIVR_ACCESS_KEY"
-          
+          delivr login "$DELIVR_SERVER_URL" --accessKey "$DELIVR_ACCESS_KEY"
+
           CI_RUN_ID="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
-          
+
           # Include build number since we already uploaded to Play Store
           # Fails workflow on error
-          code-push-standalone upload-aab-build "$CI_RUN_ID" \
+          delivr upload-aab-build "$CI_RUN_ID" \
             ./app/build/outputs/bundle/release/app-release.aab \
             --artifactVersion "${{ steps.version.outputs.version_name }}" \
             --org "$ORG_NAME" \
             --buildNumber "${{ steps.version.outputs.version_code }}"
-      
+
       - name: Skip Delivr Upload (Internal Build)
         if: ${{ inputs.delivr_internal == true }}
         run: echo "ℹ️ Skipping Delivr upload (internal build)"
@@ -628,28 +629,28 @@ on:
   workflow_dispatch:
     inputs:
       delivr_internal:
-        description: 'Internal Delivr build (skip Delivr upload)'
+        description: "Internal Delivr build (skip Delivr upload)"
         required: false
-        default: 'false'
+        default: "false"
         type: boolean
 
 jobs:
   build-ios:
     runs-on: macos-latest
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      
+
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-      
+          node-version: "20"
+
       - name: Install dependencies
         run: |
           cd ios && pod install
-      
+
       - name: Build IPA
         run: |
           xcodebuild -workspace ios/MyApp.xcworkspace \
@@ -657,34 +658,34 @@ jobs:
             -configuration Release \
             -archivePath build/MyApp.xcarchive \
             archive
-          
+
           xcodebuild -exportArchive \
             -archivePath build/MyApp.xcarchive \
             -exportPath build \
             -exportOptionsPlist ios/ExportOptions.plist
-      
+
       - name: Install delivr-cli
         if: ${{ inputs.delivr_internal != true }}
         run: npm install -g @ds-fancode/delivr-cli
-      
+
       - name: Upload to Delivr
         if: ${{ inputs.delivr_internal != true }}
         env:
           DELIVR_ACCESS_KEY: ${{ secrets.DELIVR_ACCESS_KEY }}
           DELIVR_SERVER_URL: ${{ secrets.DELIVR_SERVER_URL }}
         run: |
-          code-push-standalone login "$DELIVR_SERVER_URL" --accessKey "$DELIVR_ACCESS_KEY"
-          
+          delivr login "$DELIVR_SERVER_URL" --accessKey "$DELIVR_ACCESS_KEY"
+
           CI_RUN_ID="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
-          
+
           # Extract version from Info.plist or set it
           APP_VERSION=$(/usr/libexec/PlistBuddy -c "Print :CFBundleShortVersionString" ios/MyApp/Info.plist)
-          
+
           # Upload IPA regression build - fails workflow on error
-          code-push-standalone upload-regression-artifact "$CI_RUN_ID" ./build/MyApp.ipa \
+          delivr upload-regression-artifact "$CI_RUN_ID" ./build/MyApp.ipa \
             --artifactVersion "$APP_VERSION" \
             --org "$ORG_NAME"
-      
+
       - name: Skip Delivr Upload (Internal Build)
         if: ${{ inputs.delivr_internal == true }}
         run: echo "ℹ️ Skipping Delivr upload (internal build)"
@@ -700,31 +701,31 @@ name: iOS TestFlight Upload
 on:
   push:
     tags:
-      - 'v*'
+      - "v*"
   workflow_dispatch:
     inputs:
       delivr_internal:
-        description: 'Internal Delivr build (skip Delivr upload)'
+        description: "Internal Delivr build (skip Delivr upload)"
         required: false
-        default: 'false'
+        default: "false"
         type: boolean
 
 jobs:
   build-and-upload:
     runs-on: macos-latest
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      
+
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-      
+          node-version: "20"
+
       - name: Install dependencies
         run: cd ios && pod install
-      
+
       - name: Build and Archive
         run: |
           xcodebuild -workspace ios/MyApp.xcworkspace \
@@ -732,7 +733,7 @@ jobs:
             -configuration Release \
             -archivePath build/MyApp.xcarchive \
             archive
-      
+
       - name: Upload to TestFlight
         id: testflight
         env:
@@ -742,30 +743,30 @@ jobs:
           # Capture the TestFlight build number
           TESTFLIGHT_BUILD_NUMBER="17965"  # Replace with actual build number
           echo "build_number=$TESTFLIGHT_BUILD_NUMBER" >> $GITHUB_OUTPUT
-      
+
       - name: Install delivr-cli
         if: ${{ inputs.delivr_internal != true }}
         run: npm install -g @ds-fancode/delivr-cli
-      
+
       - name: Upload TestFlight Build Number to Delivr
         if: ${{ inputs.delivr_internal != true }}
         env:
           DELIVR_ACCESS_KEY: ${{ secrets.DELIVR_ACCESS_KEY }}
           DELIVR_SERVER_URL: ${{ secrets.DELIVR_SERVER_URL }}
         run: |
-          code-push-standalone login "$DELIVR_SERVER_URL" --accessKey "$DELIVR_ACCESS_KEY"
-          
+          delivr login "$DELIVR_SERVER_URL" --accessKey "$DELIVR_ACCESS_KEY"
+
           CI_RUN_ID="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
-          
+
           # Extract version from Info.plist or set it
           APP_VERSION=$(/usr/libexec/PlistBuddy -c "Print :CFBundleShortVersionString" ios/MyApp/Info.plist)
-          
+
           # Upload TestFlight build number - fails workflow on error
-          code-push-standalone upload-testflight-build-number "$CI_RUN_ID" \
+          delivr upload-testflight-build-number "$CI_RUN_ID" \
             "${{ steps.testflight.outputs.build_number }}" \
             --artifactVersion "$APP_VERSION" \
             --org "$ORG_NAME"
-      
+
       - name: Skip Delivr Upload (Internal Build)
         if: ${{ inputs.delivr_internal == true }}
         run: echo "ℹ️ Skipping Delivr upload (internal build)"
@@ -779,10 +780,10 @@ jobs:
 
 #### 1. "You are not currently logged in"
 
-**Solution:** Ensure you run `code-push-standalone login --accessKey` with the server URL before any other commands.
+**Solution:** Ensure you run `delivr login --accessKey` with the server URL before any other commands.
 
 ```bash
-code-push-standalone login "$DELIVR_SERVER_URL" --accessKey "$DELIVR_ACCESS_KEY"
+delivr login "$DELIVR_SERVER_URL" --accessKey "$DELIVR_ACCESS_KEY"
 ```
 
 #### 2. "Artifact file does not exist"
@@ -796,6 +797,7 @@ find . -name "*.aab" -o -name "*.apk" -o -name "*.ipa"
 #### 3. "Invalid artifact type"
 
 **Solution:** Use the correct command for your file type:
+
 - `.aab` files → `upload-aab-build`
 - `.apk` / `.ipa` files → `upload-regression-artifact`
 
@@ -829,30 +831,30 @@ npm install -g @ds-fancode/delivr-cli
 
 ### Required Secrets (Store in CI Credentials)
 
-| Variable | Description |
-|----------|-------------|
-| `DELIVR_ACCESS_KEY` | Your Delivr access key |
+| Variable            | Description                                                 |
+| ------------------- | ----------------------------------------------------------- |
+| `DELIVR_ACCESS_KEY` | Your Delivr access key                                      |
 | `DELIVR_SERVER_URL` | Your Delivr server URL (e.g., `https://delivr.example.com`) |
-| `ORG_NAME` | Your organization name in Delivr (e.g., `MyOrg`) |
+| `ORG_NAME`          | Your organization name in Delivr (e.g., `MyOrg`)            |
 
 ### Jenkins
 
-| Variable | Description |
-|----------|-------------|
-| `BUILD_URL` | Full URL of the build (e.g., `https://jenkins.example.com/job/MyApp/123/`) |
-| `BUILD_NUMBER` | Build number |
-| `JOB_NAME` | Job name |
-| `WORKSPACE` | Workspace directory path |
+| Variable       | Description                                                                |
+| -------------- | -------------------------------------------------------------------------- |
+| `BUILD_URL`    | Full URL of the build (e.g., `https://jenkins.example.com/job/MyApp/123/`) |
+| `BUILD_NUMBER` | Build number                                                               |
+| `JOB_NAME`     | Job name                                                                   |
+| `WORKSPACE`    | Workspace directory path                                                   |
 
 ### GitHub Actions
 
-| Variable | Description |
-|----------|-------------|
+| Variable            | Description                                    |
+| ------------------- | ---------------------------------------------- |
 | `GITHUB_SERVER_URL` | GitHub server URL (e.g., `https://github.com`) |
-| `GITHUB_REPOSITORY` | Repository name (e.g., `org/repo`) |
-| `GITHUB_RUN_ID` | Unique run ID |
-| `GITHUB_RUN_NUMBER` | Run number |
-| `GITHUB_WORKSPACE` | Workspace directory path |
+| `GITHUB_REPOSITORY` | Repository name (e.g., `org/repo`)             |
+| `GITHUB_RUN_ID`     | Unique run ID                                  |
+| `GITHUB_RUN_NUMBER` | Run number                                     |
+| `GITHUB_WORKSPACE`  | Workspace directory path                       |
 
 **Constructing CI Run ID for GitHub Actions:**
 
@@ -874,6 +876,6 @@ CI_RUN_ID="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_I
 ## Support
 
 For issues or questions:
+
 - Check the [CLI Reference](../CLI_REFERENCE.md) for command details
 - Open an issue on the repository
-
