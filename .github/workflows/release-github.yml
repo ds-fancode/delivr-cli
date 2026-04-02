@@ -60,7 +60,7 @@ jobs:
           echo "@ds-fancode:registry=https://npm.pkg.github.com" >> "$HOME/.npmrc"
 
       - name: Publish to GitHub Packages
-        run: npm publish --registry https://npm.pkg.github.com
+        run: npm publish --registry https://npm.pkg.github.com --access restricted
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
