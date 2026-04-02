@@ -30,6 +30,9 @@
     "README.md",
     "LICENSE.txt"
   ],
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ds-fancode/delivr-cli.git"
