@@ -1,5 +1,6 @@
 {
-  "name": "@d11/delivr-cli",
+  "name": "@ds-fancode/delivr-cli",
+  "private": true,
   "version": "0.0.6",
   "description": "Management CLI for Delivr - deploy mobile app updates over-the-air",
   "main": "./script/cli.js",
