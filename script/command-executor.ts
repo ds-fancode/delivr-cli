@@ -56,7 +56,7 @@ const which = require("which");
 import wordwrap = require("wordwrap");
 const xcode = require("xcode");
 
-const configFilePath: string = path.join(process.env.LOCALAPPDATA || process.env.HOME, ".code-push.config");
+const configFilePath: string = path.join(process.env.LOCAL_APP_DATA || process.env.HOME, ".code-push.config");
 const emailValidator = require("email-validator");
 const packageJson = require("../../package.json");
 const parseXml = Q.denodeify(require("xml2js").parseString);
