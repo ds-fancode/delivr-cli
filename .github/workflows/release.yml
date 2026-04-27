@@ -5,17 +5,18 @@ on:
 
 jobs:
   release:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted-gcs-cache
+    if: false
     steps:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-          
+
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18.x'
-          registry-url: 'https://registry.npmjs.org'
+          node-version: "18.x"
+          registry-url: "https://registry.npmjs.org"
 
       # Install system dependencies
       - name: Install system dependencies
@@ -32,7 +33,7 @@ jobs:
         run: |
           PACKAGE_VERSION=$(node -p "require('./package.json').version")
           echo "Current version: $PACKAGE_VERSION"
-          if npm view @d11/delivr-cli@$PACKAGE_VERSION version; then
+          if npm view @ds-fancode/delivr-cli@$PACKAGE_VERSION version; then
             echo "Error: Version $PACKAGE_VERSION already exists on npm"
             exit 1
           fi

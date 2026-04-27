@@ -5,32 +5,38 @@ The **Delivr CLI** is a Node.js application that allows users to deploy and mana
 ## Installation & Usage
 
 ### Global Installation
+
 ```bash
-npm install -g @d11/delivr-cli
+npm install -g @ds-fancode/delivr-cli
 ```
+
 After global installation, you can use the CLI directly:
+
 ```bash
-code-push-standalone <command>
+delivr <command>
 ```
 
 ### Project Installation
+
 ```bash
 # Using npm
-npm install --save-dev @d11/delivr-cli
+npm install --save-dev @ds-fancode/delivr-cli
 
 # Using yarn
-yarn add --dev @d11/delivr-cli
+yarn add --dev @ds-fancode/delivr-cli
 ```
+
 After project installation, you can use the CLI through npm/yarn:
+
 ```bash
 # Using npm
-npm run code-push-standalone <command>
+npm run delivr <command>
 
 # Using yarn
-yarn code-push-standalone <command>
+yarn delivr <command>
 
 # Using npx
-npx code-push-standalone <command>
+npx delivr <command>
 ```
 
 ## Authentication
@@ -38,15 +44,16 @@ npx code-push-standalone <command>
 Most commands require authentication. You'll need an access key to use the CLI.
 
 ### Login
+
 ```bash
 # Login with access key
-code-push-standalone login --accessKey <your-access-key> <server-url>
+delivr login <server-url> --accessKey <your-access-key>
 
 # Check login status
-code-push-standalone whoami
+delivr whoami
 
 # Logout
-code-push-standalone logout
+delivr logout
 ```
 
 To get an access key:
@@ -63,8 +70,9 @@ The `release` command allows you to deploy updates to your app. There are two ty
 2. Patch Bundle (sending only the diff)
 
 ### Command Structure
+
 ```bash
-code-push-standalone release <appName> <updateContents> <targetBinaryVersion>
+delivr release <appName> <updateContents> <targetBinaryVersion>
 [--deploymentName <deploymentName>]
 [--description <description>]
 [--disabled <disabled>]
@@ -78,14 +86,16 @@ code-push-standalone release <appName> <updateContents> <targetBinaryVersion>
 Parameters:
 
 Required Parameters:
+
 - `appName`: Name of your app (e.g., "MyApp-iOS")
 - `updateContents`: Path to your update files (bundle/assets)
 - `targetBinaryVersion`: App store version this update is for. Can be:
   - Exact version: "1.0.0"
   - Range: "^1.0.0" (compatible with 1.x.x)
-  - Wildcard: "*" (all versions)
+  - Wildcard: "\*" (all versions)
 
 Optional Parameters:
+
 - `--deploymentName` or `-d`: Target deployment ("Staging" or "Production", defaults to "Staging")
 - `--description` or `-des`: Release notes or changelog
 - `--disabled`: Prevents update from being downloaded (useful for staged rollouts)
@@ -100,16 +110,18 @@ Optional Parameters:
   - `brotli`: Better compression, smaller bundle size
 
 ### Full Bundle Release
+
 Release a complete new bundle:
+
 ```bash
 # Release to staging with deflate compression (default)
-code-push-standalone release MyApp-iOS ./codepush 1.0.0 \
+delivr release MyApp-iOS ./codepush 1.0.0 \
   --deploymentName Staging \
   --description "New features" \
   --isPatch false
 
 # Release with brotli compression (better compression)
-code-push-standalone release MyApp-iOS ./dist/bundle "^1.0.0" \
+delivr release MyApp-iOS ./dist/bundle "^1.0.0" \
   --deploymentName Production \
   --mandatory \
   --isPatch false \
@@ -119,20 +131,23 @@ code-push-standalone release MyApp-iOS ./dist/bundle "^1.0.0" \
 > Note about compression: Brotli typically achieves better compression ratios than deflate (e.g., 23.1MB → 8.14MB with Brotli vs 11.04MB with deflate).
 
 ### Patch Bundle Release
+
 For smaller updates, first create a patch and then release it:
 
 1. Create patch between old and new bundles:
+
 ```bash
-code-push-standalone create-patch \
+delivr create-patch \
   ./old-bundle \
   ./new-bundle \
   ./.codepush/patches
 ```
 
 2. Release the patch:
+
 ```bash
 # Release patch with brotli compression
-code-push-standalone release MyApp-iOS ./.codeupush/patches "1.0.0" \
+delivr release MyApp-iOS ./.codeupush/patches "1.0.0" \
   --deploymentName Staging \
   --description "Bug fixes" \
   --isPatch true \
@@ -146,20 +161,35 @@ _Note: Make sure to upload assets alongwith patch bundle._
 For more details about the binary diff implementation, see [bsdiff/README.md](./bsdiff/README.md).
 
 ### Promote Updates
+
 After testing in staging, promote to production:
+
 ```bash
 # Basic promotion
-code-push-standalone promote MyApp-iOS Staging Production
+delivr promote MyApp-iOS Staging Production
 
 # Promotion with options
-code-push-standalone promote MyApp-iOS Staging Production \
+delivr promote MyApp-iOS Staging Production \
   --rollout 25 \                    # Release to 25% of users
     --description "Verified update"    # Update description
 ```
+
+## CI/CD Integration
+
+The Delivr CLI provides three commands for CI/CD build artifact management:
+
+| Command                          | Description                        | Supported Files |
+| -------------------------------- | ---------------------------------- | --------------- |
+| `upload-aab-build`               | Upload AAB for Play Store releases | `.aab`          |
+| `upload-regression-artifact`     | Upload regression builds           | `.apk`, `.ipa`  |
+| `upload-testflight-build-number` | Submit TestFlight build number     | N/A             |
+
+For detailed CI/CD integration guides with Jenkins and GitHub Actions examples, see our [CI/CD Integration Guide](./docs/CI_CD_INTEGRATION.md).
 
 ## Contributing
 
 For information about contributing to Delivr CLI, please see our [Contributing Guide](./CONTRIBUTING.md).
 
 ---
+
 **Note:** For additional commands and advanced features, see our [Advanced Usage Guide](./CLI_REFERENCE.md).
